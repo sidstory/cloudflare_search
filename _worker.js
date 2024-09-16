@@ -25,7 +25,7 @@ const replace_dict = {
 }
 export default {
 	 async fetch (request, env) {
-	 return fetchAndApply(request))
+	 return fetchAndApply(request)
 	}
 }
 
