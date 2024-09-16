@@ -21,7 +21,6 @@ const disable_cache = false
 const replace_dict = {
     '$upstream': '$custom_domain',
 }
-const upstream=env.URL
 
 // Main fetch event listener
 export default {
