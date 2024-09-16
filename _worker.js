@@ -32,11 +32,11 @@ export default {
 }
 
 async function fetchAndApply(request,env) {
-    const region = env.cf-ipcountry
-    const ip_address = env.cf-connecting-ip
-    const user_agent = env.user-agent
-    const client_cookie=env.client-cookie
-    const client_data=env.client-data
+    const region = env.IP_COUNTRY
+    const ip_address = env.CONNECTING_IP
+    const user_agent = env.USER_AGENT
+    const client_cookie=env.COOKIE
+    const client_data=env.CLIENT_DATA
 
     let response = null;
     let url = new URL(request.url);
