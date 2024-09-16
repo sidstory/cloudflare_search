@@ -1,4 +1,8 @@
-// Website you intended to retrieve for users.
+
+export default {
+
+    async fetch(request, env) {
+        // Website you intended to retrieve for users.
 const upstream = 'www.google.com'
 
 // Custom pathname for the upstream website.
@@ -23,8 +27,6 @@ const disable_cache = false
 const replace_dict = {
     '$upstream': '$custom_domain',
 }
-export default {
-    async fetch(request, env) {
     const region = request.headers.get('cf-ipcountry').toUpperCase();
     const ip_address = request.headers.get('cf-connecting-ip');
     const user_agent = request.headers.get('user-agent');
