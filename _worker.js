@@ -1,5 +1,3 @@
-// Website you intended to retrieve for users.
-const upstream = 'www.google.com'
 
 // Custom pathname for the upstream website.
 const upstream_path = '/'
@@ -37,6 +35,7 @@ async function fetchAndApply(request,env) {
     const user_agent = env.USER_AGENT
     const client_cookie=env.COOKIE
     const client_data=env.CLIENT_DATA
+    const upstream=env.URL
 
     let response = null;
     let url = new URL(request.url);
