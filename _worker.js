@@ -24,7 +24,7 @@ const replace_dict = {
     '$upstream': '$custom_domain',
 }
 export default {
-    async fetch(request, env, ctx) {
+    async fetch(request, env) {
       return "你好！世界！"
     }
   }
