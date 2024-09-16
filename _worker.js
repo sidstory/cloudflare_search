@@ -25,8 +25,9 @@ const replace_dict = {
 }
 export default {
 	async fetch (request, env) {
-		fetchAndApply(event.request)
+	 fetchAndApply(event.request)
 	}
+}
 
 async function fetchAndApply(request) {
     const region = request.headers.get('cf-ipcountry').toUpperCase();
