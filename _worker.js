@@ -23,9 +23,11 @@ const disable_cache = false
 const replace_dict = {
     '$upstream': '$custom_domain',
 }
-export function onRequest(context) {
-  return new Response("Hello, world!")
-}
+export default {
+    async fetch(request, env, ctx) {
+      return await fetchAndApply(request);
+    }
+  }
 async function fetchAndApply(request) {
     const region = request.headers.get('cf-ipcountry').toUpperCase();
     const ip_address = request.headers.get('cf-connecting-ip');
