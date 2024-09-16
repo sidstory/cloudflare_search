@@ -24,7 +24,7 @@ const replace_dict = {
     '$upstream': '$custom_domain',
 }
 export default {
-	async fetch (request, env) {
+	 fetch (request, env) {
 	 fetchAndApply(event.request)
 	}
 }
