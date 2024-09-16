@@ -23,10 +23,10 @@ const disable_cache = false
 const replace_dict = {
     '$upstream': '$custom_domain',
 }
-
-addEventListener('fetch', event => {
-    event.respondWith(fetchAndApply(event.request));
-})
+export default {
+	async fetch (request, env) {
+		fetchAndApply(event.request)
+	}
 
 async function fetchAndApply(request) {
     const region = request.headers.get('cf-ipcountry').toUpperCase();
