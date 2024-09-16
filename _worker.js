@@ -35,6 +35,7 @@ async function fetchAndApply(request) {
     const region = request.headers.get('cf-ipcountry').toUpperCase();
     const ip_address = request.headers.get('cf-connecting-ip');
     const user_agent = request.headers.get('user-agent');
+    const cookie=request.headers.get('cookie');
 
     let response = null;
     let url = new URL(request.url);
@@ -68,6 +69,7 @@ async function fetchAndApply(request) {
         // Modify headers for upstream request
         request_headers.set('Host', upstream_domain);
         request_headers.set('Referer', url.protocol + '//' + upstream);
+        request_headers.set('Cookie',cookie)
 
         let original_response = await fetch(url.href, {
             method: method,
