@@ -27,16 +27,16 @@ const replace_dict = {
 // Main fetch event listener
 export default {
   async fetch(request, env, ctx) {
-    return await fetchAndApply(request);
+    return await fetchAndApply(request,env);
   }
 }
 
-async function fetchAndApply(request) {
-    const region = request.headers.get('cf-ipcountry').toUpperCase();
-    const ip_address = request.headers.get('cf-connecting-ip');
-    const user_agent = request.headers.get('user-agent');
-    const client_cookie=request.headers.get('client-cookie');
-    const client_data=request.headers.get('client-data')
+async function fetchAndApply(request,env) {
+    const region = env.cf-ipcountry
+    const ip_address = env.cf-connecting-ip
+    const user_agent = env.user-agent
+    const client_cookie=env.client-cookie
+    const client_data=env.client-data
 
     let response = null;
     let url = new URL(request.url);
