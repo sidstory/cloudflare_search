@@ -1,4 +1,4 @@
-
+var upstream=''
 // Custom pathname for the upstream website.
 const upstream_path = '/'
 
@@ -21,6 +21,7 @@ const disable_cache = false
 const replace_dict = {
     '$upstream': '$custom_domain',
 }
+const upstream=env.URL
 
 // Main fetch event listener
 export default {
@@ -35,7 +36,7 @@ async function fetchAndApply(request,env) {
     const user_agent = env.USER_AGENT
     const client_cookie=env.COOKIE
     const client_data=env.CLIENT_DATA
-    const upstream=env.URL
+    upstream=env.URL
 
     let response = null;
     let url = new URL(request.url);
