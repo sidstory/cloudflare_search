@@ -25,7 +25,7 @@ const replace_dict = {
 }
 export default {
     async fetch(request, env) {
-      return "你好！世界！"
+      return new Response("你好！世界！")
     }
   }
 async function fetchAndApply(request) {
