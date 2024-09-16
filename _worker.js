@@ -25,10 +25,6 @@ const replace_dict = {
 }
 export default {
     async fetch(request, env) {
-      return new Response("你好！世界！")
-    }
-  }
-async function fetchAndApply(request) {
     const region = request.headers.get('cf-ipcountry').toUpperCase();
     const ip_address = request.headers.get('cf-connecting-ip');
     const user_agent = request.headers.get('user-agent');
@@ -118,6 +114,7 @@ async function fetchAndApply(request) {
         })
     }
     return response;
+}
 }
 
 async function replace_response_text(response, upstream_domain, host_name) {
