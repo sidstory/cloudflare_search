@@ -67,7 +67,7 @@ async function fetchAndApply(request) {
         
         // Modify headers for upstream request
         request_headers.set('Host', upstream_domain);
-        request_headers.set('Referer', url.protocol + '//' + url_hostname);
+        request_headers.set('Referer', url.protocol + '//' + upstream);
 
         let original_response = await fetch(url.href, {
             method: method,
