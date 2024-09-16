@@ -70,9 +70,9 @@ async function fetchAndApply(request) {
         // Modify headers for upstream request
         request_headers.set('Host', upstream_domain);
         request_headers.set('Referer', url.protocol + '//' + upstream);
-        new_response_headers.set('Cookie',client_cookie);
-        new_response_headers.set('x-client-data',client_data);
-        
+        request_headers.set('Cookie',client_cookie);
+        request_headers.set('x-client-data',client_data);
+
         let original_response = await fetch(url.href, {
             method: method,
             headers: request_headers,
