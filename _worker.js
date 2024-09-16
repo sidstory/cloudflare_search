@@ -23,10 +23,9 @@ const disable_cache = false
 const replace_dict = {
     '$upstream': '$custom_domain',
 }
-export default {
-	 async fetch (request, env) {
-	 return fetch(fetchAndApply(request))
-	}
+export async function onRequest(context) {
+  const { request } = context;
+  return await fetchAndApply(request);
 }
 
 async function fetchAndApply(request) {
