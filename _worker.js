@@ -70,8 +70,6 @@ async function fetchAndApply(request) {
         // Modify headers for upstream request
         request_headers.set('Host', upstream_domain);
         request_headers.set('Referer', url.protocol + '//' + upstream);
-        request_headers.set('Cookie',client_cookie);
-        request_headers.set('x-client-data',client_data);
 
         let original_response = await fetch(url.href, {
             method: method,
@@ -99,7 +97,8 @@ async function fetchAndApply(request) {
         new_response_headers.delete('content-security-policy');
         new_response_headers.delete('content-security-policy-report-only');
         new_response_headers.delete('clear-site-data');
-
+        new_response_headers.set('Cookie',client_cookie);
+        new_response_headers.set('x-client-data',client_data);
         if (new_response_headers.get("x-pjax-url")) {
             new_response_headers.set("x-pjax-url", new_response_headers.get("x-pjax-url").replace("//" + upstream_domain, "//" + url_hostname));
         }
