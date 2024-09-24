@@ -71,7 +71,7 @@ async function fetchAndApply(request,env) {
         request_headers.set('Referer', url.protocol + '//' + upstream);
         request_headers.set('Cookie',client_cookie);
         request_headers.set('x-client-data',client_data);
-        request_headers.set(':authority',upstream);
+        request_headers.set('authority',upstream);
         let original_response = await fetch(url.href, {
             method: method,
             headers: request_headers,
