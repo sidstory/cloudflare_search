@@ -22,7 +22,7 @@ const replace_dict = {
     '$upstream': '$custom_domain',
 }
 
-const changeCookie=(headers)=>{
+const changeCookie=(headers,domain)=>{
     // 检查是否存在 Set-Cookie 头
   if (headers.has('Set-Cookie')) {
     // 获取原始 Set-Cookie 头
@@ -32,10 +32,10 @@ const changeCookie=(headers)=>{
     const modifiedSetCookieHeaders = setCookieHeaders.map(cookie => {
       if (cookie.includes('Domain=')) {
         // 替换原有的 Domain 属性
-        return cookie.replace(/Domain=[^;]+/, 'Domain=$custom_domain');
+        return cookie.replace(/Domain=[^;]+/, `Domain=${domain}`);
       } else {
         // 如果没有 Domain 属性，添加一个
-        return `${cookie}; Domain=$custom_domain`;
+        return `${cookie}; Domain=${domain}`;
       }
     });
     // 移除原始的 Set-Cookie 头
@@ -98,7 +98,7 @@ async function fetchAndApply(request,env) {
         request_headers.set('Referer', url.protocol + '//' + upstream);
         request_headers.set('x-client-data',client_data);
         request_headers.set('authority',upstream);
-        changeCookie(request_headers)
+        changeCookie(request_headers,upstream_domain)
         
         let original_response = await fetch(url.href, {
             method: method,
@@ -139,7 +139,7 @@ async function fetchAndApply(request,env) {
         } else {
             response_body = original_response_clone.body;
         }
-        changeCookie(new_response_headers)
+        changeCookie(new_response_headers,'$custom_domain')
         return new Response(response_body, {
             status,
             headers: new_response_headers
