@@ -96,6 +96,7 @@ async function fetchAndApply(request,env) {
         request_headers.set('Host', upstream_domain);
         request_headers.set('Referer', url.protocol + '//' + upstream);
         request_headers.set('authority',upstream);
+        request_headers.set("X-Forwarded-For","66.62.1.128")
         changeCookie(request_headers,upstream_domain)
         
         let original_response = await fetch(url.href, {
