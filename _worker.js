@@ -46,6 +46,7 @@ const changeCookie=(headers)=>{
       headers.append('Set-Cookie', modifiedCookie);
     });
 
+ }
 }
 
 // Main fetch event listener
