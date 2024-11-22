@@ -60,8 +60,7 @@ async function fetchAndApply(request,env) {
     const region = env.IP_COUNTRY
     const ip_address = env.CONNECTING_IP
     const user_agent = env.USER_AGENT
-    const client_cookie=env.COOKIE
-    const client_data=env.CLIENT_DATA
+
     upstream=env.URL
 
     let response = null;
@@ -96,7 +95,6 @@ async function fetchAndApply(request,env) {
         // Modify headers for upstream request
         request_headers.set('Host', upstream_domain);
         request_headers.set('Referer', url.protocol + '//' + upstream);
-        request_headers.set('x-client-data',client_data);
         request_headers.set('authority',upstream);
         changeCookie(request_headers,upstream_domain)
         
