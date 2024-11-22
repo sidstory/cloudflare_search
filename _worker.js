@@ -22,6 +22,32 @@ const replace_dict = {
     '$upstream': '$custom_domain',
 }
 
+const changeCookie=(headers)=>{
+    // 检查是否存在 Set-Cookie 头
+  if (headers.has('Set-Cookie')) {
+    // 获取原始 Set-Cookie 头
+    const setCookieHeaders = headers.getAll('Set-Cookie');
+
+    // 修改 Set-Cookie 的 Domain 属性
+    const modifiedSetCookieHeaders = setCookieHeaders.map(cookie => {
+      if (cookie.includes('Domain=')) {
+        // 替换原有的 Domain 属性
+        return cookie.replace(/Domain=[^;]+/, 'Domain=$custom_domain');
+      } else {
+        // 如果没有 Domain 属性，添加一个
+        return `${cookie}; Domain=$custom_domain`;
+      }
+    });
+    // 移除原始的 Set-Cookie 头
+    headers.delete('Set-Cookie');
+
+    // 添加修改后的 Set-Cookie 头
+    modifiedSetCookieHeaders.forEach(modifiedCookie => {
+      headers.append('Set-Cookie', modifiedCookie);
+    });
+
+}
+
 // Main fetch event listener
 export default {
   async fetch(request, env, ctx) {
@@ -69,24 +95,9 @@ async function fetchAndApply(request,env) {
         // Modify headers for upstream request
         request_headers.set('Host', upstream_domain);
         request_headers.set('Referer', url.protocol + '//' + upstream);
-        // request_headers.set('Cookie',client_cookie);
         request_headers.set('x-client-data',client_data);
         request_headers.set('authority',upstream);
-        let setCookieHeaders=request_headers.get('Set-Cookie')
-        if (setCookieHeaders) {
-            // 修改 Set-Cookie 的 Domain
-            const updatedSetCookie = setCookieHeaders
-              .split(',')
-              .map(cookie => {
-                if (cookie.includes('Domain=')) {
-                  return cookie.replace(/Domain=[^;]+/, 'Domain=$custom_domain');
-                } else {
-                  return `${cookie}; Domain=$custom_domain`;
-                }
-              })
-              .join(',');
-              request_headers.set('Set-Cookie',updatedSetCookie)
-            }
+        changeCookie(request_headers)
         
         let original_response = await fetch(url.href, {
             method: method,
@@ -127,7 +138,7 @@ async function fetchAndApply(request,env) {
         } else {
             response_body = original_response_clone.body;
         }
-
+        changeCookie(new_response_headers)
         return new Response(response_body, {
             status,
             headers: new_response_headers
