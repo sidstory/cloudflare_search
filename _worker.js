@@ -69,9 +69,25 @@ async function fetchAndApply(request,env) {
         // Modify headers for upstream request
         request_headers.set('Host', upstream_domain);
         request_headers.set('Referer', url.protocol + '//' + upstream);
-        request_headers.set('Cookie',client_cookie);
+        // request_headers.set('Cookie',client_cookie);
         request_headers.set('x-client-data',client_data);
         request_headers.set('authority',upstream);
+        let setCookieHeaders=request_headers.get('Set-Cookie')
+        if (setCookieHeaders) {
+            // 修改 Set-Cookie 的 Domain
+            const updatedSetCookie = setCookieHeaders
+              .split(',')
+              .map(cookie => {
+                if (cookie.includes('Domain=')) {
+                  return cookie.replace(/Domain=[^;]+/, 'Domain=$custom_domain');
+                } else {
+                  return `${cookie}; Domain=$custom_domain`;
+                }
+              })
+              .join(',');
+              request_headers.set('Set-Cookie',updatedSetCookie)
+            }
+        
         let original_response = await fetch(url.href, {
             method: method,
             headers: request_headers,
